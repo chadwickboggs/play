@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.tiffanytimbric.play.interview.intuit.songs.JingleUtil;
 import com.tiffanytimbric.play.interview.intuit.songs.MuzakUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -47,6 +49,40 @@ public class GraphUtilTest {
         final Graph<String, String, String> graph = newCyclicGraph();
 
         testToJsonOfGraph(graph);
+    }
+
+    @Test
+    public void testFindDuplicates_NoDuplicates() {
+        final Graph<String, String, String> graph = newAcyclicGraph();
+        final List<Node<String, String>> cycles = GraphUtil.findDuplicates(graph);
+
+        assertTrue(CollectionUtils.isEmpty(cycles));
+    }
+
+    @Test
+    public void testFindDuplicates_HasDuplicates() {
+        // TODO: Implement.
+    }
+
+    @Test
+    public void testFindCycles_AcyclicGraph() {
+        final Graph<String, String, String> graph = newAcyclicGraph();
+        final List<Node<String, String>> cycles = GraphUtil.findCycles(graph);
+
+        assertTrue(CollectionUtils.isEmpty(cycles));
+    }
+
+    /*
+     This test is ignored because `GraphUtil.findCycles(...)` has not been
+     implemented yet.
+    */
+    @Ignore
+    @Test
+    public void testFindCycles_CyclicGraph() {
+        final Graph<String, String, String> graph = newCyclicGraph();
+        final List<Node<String, String>> cycles = GraphUtil.findCycles(graph);
+
+        assertTrue(CollectionUtils.isNotEmpty(cycles));
     }
 
     @Test

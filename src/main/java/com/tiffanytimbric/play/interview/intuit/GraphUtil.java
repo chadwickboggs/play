@@ -2,13 +2,45 @@ package com.tiffanytimbric.play.interview.intuit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class GraphUtil {
 
-    public static Graph removeDuplicates(
-            @Nonnull Graph graph
+    @Nonnull
+    public static <Q, R, S> List<Node<R, S>> findDuplicates(
+            @Nonnull final Graph<Q, R, S> graph
     ) {
+        // TODO: Implement.
+
+        return new ArrayList<>();
+    }
+
+    @Nonnull
+    public static <Q, R, S> List<Node<R, S>> findCycles(
+            @Nonnull final Graph<Q, R, S> graph
+    ) {
+        // TODO: Implement.
+
+        return new ArrayList<>();
+    }
+
+    @Nonnull
+    public static <Q, R, S> Graph<Q, R, S> removeDuplicates(
+            @Nonnull final Graph<Q, R, S> graph
+    ) {
+        // TODO: Implement.
+
+        return graph;
+    }
+
+    @Nonnull
+    public static <Q, R, S> Graph<Q, R, S> removeCycles(
+            @Nonnull final Graph<Q, R, S> graph
+    ) {
+        // TODO: Implement.
+
         return graph;
     }
 
@@ -89,5 +121,4 @@ public final class GraphUtil {
                 id, name, type, properties, null, relationshipsOutbound
         );
     }
-
 }
