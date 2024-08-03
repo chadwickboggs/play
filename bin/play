@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#JAVA_OPTS="${JAVA_OPTS} --source 19"
+#JAVA_OPTS="${JAVA_OPTS} --enable-preview"
+
+if [ "-g" == "${1}" ]; then
+    JAVA_OPTS="${JAVA_OPTS} -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+    shift 1
+fi
+
+play_home="$(dirname ${0})"/..
+play_dist="${play_home}"/dist
+play_lib="${play_home}"/lib
+#play_dev_build_folder="${play_home}"/out/production/play
+play_dev_build_folder="${play_home}"/target/classes
+
+play_dist_escaped="$(/bin/echo "${play_dist}" | /usr/bin/sed 's/\//\\\//g')"
+play_lib_escaped="$(/bin/echo "${play_lib}" | /usr/bin/sed 's/\//\\\//g')"
+
+#
+# Add distribution to classpath.
+#
+
+distribution_files="${play_dist}/$(/bin/ls "${play_dist}" | /usr/bin/tr '\n' ':')"
+distribution_files="$(/bin/echo ${distribution_files} | /usr/bin/sed "s/:/:${play_dist_escaped}\//g")"
+
+#
+# Add all library dependencies to classpath.
+#
+
+libs="${play_lib}/$(/bin/ls "${play_lib}" | /usr/bin/tr '\n' ':')"
+cp="${distribution_files}:$(/bin/echo ${libs} | /usr/bin/sed "s/:/:${play_lib_escaped}\//g")"
+cp="${play_dev_build_folder}:${cp}"
+
+#
+# Prepend development output folder to classpath.
+#
+
+#cp="${play_home}/out/production/NtrUtil:${cp}"
+
+#
+# Execute the application.
+#
+
+java ${JAVA_OPTS} -cp "${cp}" com.tiffanytimbric.play.Main $@
+
+exit $?
