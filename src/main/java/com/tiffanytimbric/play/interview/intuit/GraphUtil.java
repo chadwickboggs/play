@@ -18,7 +18,7 @@ public final class GraphUtil {
             @Nonnull final String name
     ) {
         return new Node<>(
-                id, name, NodeType.START, null, null
+                id, name, NodeType.START, null, null, null
         );
     }
 
@@ -27,10 +27,10 @@ public final class GraphUtil {
             int id,
             @Nonnull final String name,
             @Nullable final Map<String, R> properties,
-            @Nullable final Map<String, Edge<S>> relationships
+            @Nullable final Map<String, Edge<S>> relationshipsOutbound
     ) {
         return new Node<>(
-                id, name, NodeType.START, properties, relationships
+                id, name, NodeType.START, properties, null, relationshipsOutbound
         );
     }
 
@@ -40,7 +40,7 @@ public final class GraphUtil {
             @Nonnull final String name
     ) {
         return new Node<>(
-                id, name, NodeType.INTERMEDIATE, null, null
+                id, name, NodeType.INTERMEDIATE, null, null, null
         );
     }
 
@@ -49,10 +49,10 @@ public final class GraphUtil {
             int id,
             @Nonnull final String name,
             @Nullable final Map<String, R> properties,
-            @Nullable final Map<String, Edge<S>> relationships
+            @Nullable final Map<String, Edge<S>> relationshipsOutbound
     ) {
         return new Node<>(
-                id, name, NodeType.INTERMEDIATE, properties, relationships
+                id, name, NodeType.INTERMEDIATE, properties, null, relationshipsOutbound
         );
     }
 
@@ -62,7 +62,7 @@ public final class GraphUtil {
             @Nonnull final String name
     ) {
         return new Node<>(
-                id, name, NodeType.END, null, null
+                id, name, NodeType.END, null, null, null
         );
     }
 
@@ -73,7 +73,7 @@ public final class GraphUtil {
             @Nullable final Map<String, R> properties
     ) {
         return new Node<>(
-                id, name, NodeType.END, properties, null
+                id, name, NodeType.END, properties, null, null
         );
     }
 
@@ -83,10 +83,10 @@ public final class GraphUtil {
             @Nonnull final String name,
             @Nonnull final NodeType type,
             @Nullable final Map<String, R> properties,
-            @Nullable final Map<String, Edge<S>> relationships
+            @Nullable final Map<String, Edge<S>> relationshipsOutbound
     ) {
         return new Node<>(
-                id, name, type, properties, relationships
+                id, name, type, properties, null, relationshipsOutbound
         );
     }
 

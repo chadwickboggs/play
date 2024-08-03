@@ -12,12 +12,20 @@ import static com.tiffanytimbric.play.interview.intuit.GraphUtil.*;
 
 public final class MuzakUtil {
 
-    @Nonnull
-    public static Graph<String, String, String> newMuzak() {
-        final Map<String, String> graphProperties = new HashMap<>();
+    public static final String LABEL_MUZAK = "Muzak";
 
+    @Nonnull
+    public static Graph<String, String, String> newMuzak(
+            @Nonnull final String name,
+            @Nonnull final String description,
+            @Nonnull final Map<String, String> graphProperties
+    ) {
         return new Graph<>(
-                0, "Muzak", graphProperties, newIntroNode()
+                0,
+                LABEL_MUZAK + ": " + name,
+                description,
+                graphProperties,
+                newIntroNode()
         );
     }
 
@@ -26,7 +34,7 @@ public final class MuzakUtil {
         final Node<String, String> introNode = newStartNode(
                 0, "Intro"
         );
-        introNode.setRelationships(
+        introNode.setRelationshipsOutbound(
                 newIntroNodeRelationships(introNode)
         );
 
@@ -53,7 +61,7 @@ public final class MuzakUtil {
         final Node<String, String> hookOneNode = newIntermediateNode(
                 1, "Hook One"
         );
-        hookOneNode.setRelationships(
+        hookOneNode.setRelationshipsOutbound(
                 newHookOneNodeRelationships(hookOneNode)
         );
 
@@ -83,7 +91,7 @@ public final class MuzakUtil {
         final Node<String, String> hookTwoNode = newIntermediateNode(
                 1, "Hook Two"
         );
-        hookTwoNode.setRelationships(
+        hookTwoNode.setRelationshipsOutbound(
                 newHookTwoNodeRelationships(hookOneNode, hookTwoNode)
         );
 

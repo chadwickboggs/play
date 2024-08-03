@@ -10,18 +10,19 @@ import java.util.Map;
 
 public final class Node<R, S> {
 
-    private int id;
-    private String label;
-    private NodeType type;
+    private final int id;
+    private final String label;
+    private final NodeType type;
     private Map<String, R> properties;
-    private Map<String, Edge<S>> relationships;
+    private Map<String, Edge<S>> relationshipsInbound;
+    private Map<String, Edge<S>> relationshipsOutbound;
 
     public Node(
             int id,
             @Nonnull final String label,
             @Nonnull final NodeType type
     ) {
-        this(id, label, type, null, null);
+        this(id, label, type, null, null, null);
     }
 
     public Node(
@@ -29,13 +30,15 @@ public final class Node<R, S> {
             @Nonnull final String label,
             @Nonnull final NodeType type,
             @Nullable final Map<String, R> properties,
-            @Nullable final Map<String, Edge<S>> relationships
+            @Nullable final Map<String, Edge<S>> relationshipsInbound,
+            @Nullable final Map<String, Edge<S>> relationshipsOutbound
     ) {
         this.id = id;
         this.label = label;
         this.type = type;
         this.properties = properties;
-        this.relationships = relationships;
+        this.relationshipsInbound = relationshipsInbound;
+        this.relationshipsOutbound = relationshipsOutbound;
     }
 
     @Nonnull
@@ -65,14 +68,25 @@ public final class Node<R, S> {
     }
 
     @Nullable
-    public Map<String, Edge<S>> getRelationships() {
-        return relationships;
+    public Map<String, Edge<S>> getRelationshipsInbound() {
+        return relationshipsInbound;
     }
 
-    public void setRelationships(
+    public void setRelationshipsInbound(
+            @Nullable final Map<String, Edge<S>> relationshipsInbound
+    ) {
+        this.relationshipsInbound = relationshipsInbound;
+    }
+
+    @Nullable
+    public Map<String, Edge<S>> getRelationshipsOutbound() {
+        return relationshipsOutbound;
+    }
+
+    public void setRelationshipsOutbound(
             @Nullable final Map<String, Edge<S>> relationships
     ) {
-        this.relationships = relationships;
+        this.relationshipsOutbound = relationships;
     }
 
     @Override
@@ -94,7 +108,8 @@ public final class Node<R, S> {
                 .append(this.label, rhs.label)
                 .append(this.type, rhs.type)
                 .append(this.properties, rhs.properties)
-                .append(this.relationships, rhs.relationships)
+                .append(this.relationshipsInbound, rhs.relationshipsInbound)
+                .append(this.relationshipsOutbound, rhs.relationshipsOutbound)
                 .isEquals();
     }
 
@@ -112,7 +127,8 @@ public final class Node<R, S> {
                 .append("label", label)
                 .append("type", type)
                 .append("properties", properties)
-                .append("relationships", relationships)
+                .append("relationshipsInbound", relationshipsInbound)
+                .append("relationshipsOutbound", relationshipsOutbound)
                 .toString();
     }
 }
