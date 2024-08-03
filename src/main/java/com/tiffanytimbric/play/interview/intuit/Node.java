@@ -1,5 +1,6 @@
 package com.tiffanytimbric.play.interview.intuit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,8 +15,9 @@ public final class Node<R, S> {
     private final String label;
     private final NodeType type;
     private Map<String, R> properties;
-    private Map<String, Edge<S>> relationshipsInbound;
-    private Map<String, Edge<S>> relationshipsOutbound;
+    @JsonIgnore
+    private Map<String, Edge<R, S>> relationshipsInbound;
+    private Map<String, Edge<R, S>> relationshipsOutbound;
 
     public Node(
             int id,
@@ -30,8 +32,8 @@ public final class Node<R, S> {
             @Nonnull final String label,
             @Nonnull final NodeType type,
             @Nullable final Map<String, R> properties,
-            @Nullable final Map<String, Edge<S>> relationshipsInbound,
-            @Nullable final Map<String, Edge<S>> relationshipsOutbound
+            @Nullable final Map<String, Edge<R, S>> relationshipsInbound,
+            @Nullable final Map<String, Edge<R, S>> relationshipsOutbound
     ) {
         this.id = id;
         this.label = label;
@@ -68,23 +70,23 @@ public final class Node<R, S> {
     }
 
     @Nullable
-    public Map<String, Edge<S>> getRelationshipsInbound() {
+    public Map<String, Edge<R, S>> getRelationshipsInbound() {
         return relationshipsInbound;
     }
 
     public void setRelationshipsInbound(
-            @Nullable final Map<String, Edge<S>> relationshipsInbound
+            @Nullable final Map<String, Edge<R, S>> relationshipsInbound
     ) {
         this.relationshipsInbound = relationshipsInbound;
     }
 
     @Nullable
-    public Map<String, Edge<S>> getRelationshipsOutbound() {
+    public Map<String, Edge<R, S>> getRelationshipsOutbound() {
         return relationshipsOutbound;
     }
 
     public void setRelationshipsOutbound(
-            @Nullable final Map<String, Edge<S>> relationships
+            @Nullable final Map<String, Edge<R, S>> relationships
     ) {
         this.relationshipsOutbound = relationships;
     }

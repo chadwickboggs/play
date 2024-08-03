@@ -42,10 +42,10 @@ public final class JingleUtil {
     }
 
     @Nonnull
-    public static Map<String, Edge<String>> newIntroNodeRelationshipsOutbound(
+    public static Map<String, Edge<String, String>> newIntroNodeRelationshipsOutbound(
             @Nonnull final Node<String, String> introNode
     ) {
-        final Map<String, Edge<String>> introNodeRelationshipsOutbound = new HashMap<>();
+        final Map<String, Edge<String, String>> introNodeRelationshipsOutbound = new HashMap<>();
         introNodeRelationshipsOutbound.put(
                 "hook",
                 new Edge<>(
@@ -74,11 +74,11 @@ public final class JingleUtil {
     }
 
     @Nonnull
-    private static Map<String, Edge<String>> newHookNodeRelationshipsInbound(
+    private static Map<String, Edge<String, String>> newHookNodeRelationshipsInbound(
             @Nonnull final Node<String, String> introNode,
             @Nonnull final Node<String, String> hookNode
     ) {
-        final Map<String, Edge<String>> hookNodeRelationshipsInbound = new HashMap<>();
+        final Map<String, Edge<String, String>> hookNodeRelationshipsInbound = new HashMap<>();
         hookNodeRelationshipsInbound.put(
                 "intro",
                 new Edge<>(
@@ -90,10 +90,10 @@ public final class JingleUtil {
     }
 
     @Nonnull
-    public static Map<String, Edge<String>> newHookNodeRelationshipsOutbound(
+    public static Map<String, Edge<String, String>> newHookNodeRelationshipsOutbound(
             @Nonnull final Node<String, String> hookNode
     ) {
-        final Map<String, Edge<String>> hookNodeRelationshipsOutbound = new HashMap<>();
+        final Map<String, Edge<String, String>> hookNodeRelationshipsOutbound = new HashMap<>();
         hookNodeRelationshipsOutbound.put(
                 "tie-up",
                 new Edge<>(
@@ -120,11 +120,11 @@ public final class JingleUtil {
     }
 
     @Nonnull
-    private static Map<String, Edge<String>> newTieUpNodeRelationshipsInbound(
+    private static Map<String, Edge<String, String>> newTieUpNodeRelationshipsInbound(
             @Nonnull final Node<String, String> hookNode,
             @Nonnull final Node<String, String> tieUpNode
     ) {
-        final Map<String, Edge<String>> tieUpNodeRelationshipsInbound = new HashMap<>();
+        final Map<String, Edge<String, String>> tieUpNodeRelationshipsInbound = new HashMap<>();
         tieUpNodeRelationshipsInbound.put(
                 "hook",
                 new Edge<>(

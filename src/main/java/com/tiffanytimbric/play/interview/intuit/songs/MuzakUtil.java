@@ -42,10 +42,10 @@ public final class MuzakUtil {
     }
 
     @Nonnull
-    public static Map<String, Edge<String>> newIntroNodeRelationships(
+    public static Map<String, Edge<String, String>> newIntroNodeRelationships(
             @Nonnull final Node<String, String> introNode
     ) {
-        final Map<String, Edge<String>> introNodeRelationships = new HashMap<>();
+        final Map<String, Edge<String, String>> introNodeRelationships = new HashMap<>();
         introNodeRelationships.put(
                 "hook-one",
                 new Edge<>(
@@ -69,10 +69,10 @@ public final class MuzakUtil {
     }
 
     @Nonnull
-    public static Map<String, Edge<String>> newHookOneNodeRelationships(
+    public static Map<String, Edge<String, String>> newHookOneNodeRelationships(
             @Nonnull final Node<String, String> hookOneNode
     ) {
-        final Map<String, Edge<String>> hookOneNodeRelationships = new HashMap<>();
+        final Map<String, Edge<String, String>> hookOneNodeRelationships = new HashMap<>();
         hookOneNodeRelationships.put(
                 "hook-two",
                 new Edge<>(
@@ -99,11 +99,11 @@ public final class MuzakUtil {
     }
 
     @Nonnull
-    public static Map<String, Edge<String>> newHookTwoNodeRelationships(
+    public static Map<String, Edge<String, String>> newHookTwoNodeRelationships(
             @Nonnull final Node<String, String> hookOneNode,
             @Nonnull final Node<String, String> hookTwoNode
     ) {
-        final Map<String, Edge<String>> hookTwoNodeRelationships = new HashMap<>();
+        final Map<String, Edge<String, String>> hookTwoNodeRelationships = new HashMap<>();
         hookTwoNodeRelationships.put(
                 "hool-one",
                 new Edge<>(
