@@ -1,20 +1,52 @@
 package com.tiffanytimbric.play.interview.intuit;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class GraphUtil {
+
+    private static final ThreadLocal<Set<Integer>> seenNodes = new ThreadLocal<>() {
+        @Override
+        protected Set<Integer> initialValue() {
+            return new HashSet<>();
+        }
+    };
 
     @Nonnull
     public static <Q, R, S> List<Node<R, S>> findDuplicates(
             @Nonnull final Graph<Q, R, S> graph
     ) {
-        // TODO: Implement.
+        return findDuplicates(graph.startNode());
+    }
 
-        return new ArrayList<>();
+    @Nonnull
+    public static <R, S> List<Node<R, S>> findDuplicates(
+            @Nonnull final Node<R, S> currentNode
+    ) {
+        final List<Node<R, S>> duplicates = new ArrayList<>();
+        if (currentNode != null) {
+            seenNodes.get().add(currentNode.getId());
+
+            final Map<String, Edge<R, S>> relationshipsOutbound = currentNode.getRelationshipsOutbound();
+            if (MapUtils.isEmpty(relationshipsOutbound)) {
+                return duplicates;
+            }
+
+            relationshipsOutbound.values().stream()
+                    .map(Edge::target)
+                    .filter(Objects::nonNull)
+                    .forEach(targetNode ->
+                            duplicates.addAll(
+                                    findDuplicates(targetNode)
+                            )
+                    );
+        }
+
+        return duplicates;
     }
 
     @Nonnull
