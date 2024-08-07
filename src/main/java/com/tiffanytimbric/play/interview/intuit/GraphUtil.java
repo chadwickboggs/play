@@ -28,23 +28,27 @@ public final class GraphUtil {
             @Nonnull final Node<R, S> currentNode
     ) {
         final List<Node<R, S>> duplicates = new ArrayList<>();
-        if (currentNode != null) {
-            seenNodes.get().add(currentNode.getId());
-
-            final Map<String, Edge<R, S>> relationshipsOutbound = currentNode.getRelationshipsOutbound();
-            if (MapUtils.isEmpty(relationshipsOutbound)) {
-                return duplicates;
-            }
-
-            relationshipsOutbound.values().stream()
-                    .map(Edge::target)
-                    .filter(Objects::nonNull)
-                    .forEach(targetNode ->
-                            duplicates.addAll(
-                                    findDuplicates(targetNode)
-                            )
-                    );
+        if (currentNode == null) {
+            return duplicates;
         }
+
+        boolean isDuplicate = seenNodes.get().add(currentNode.getId());
+        if (isDuplicate) {
+            duplicates.add(currentNode);
+        }
+
+        final Map<String, Edge<R, S>> relationshipsOutbound = currentNode.getRelationshipsOutbound();
+        if (MapUtils.isEmpty(relationshipsOutbound)) {
+            return duplicates;
+        }
+
+        relationshipsOutbound.values().stream()
+                .map(Edge::target)
+                .filter(Objects::nonNull)
+                .flatMap(targetNode ->
+                        findDuplicates(targetNode).stream()
+                )
+                .forEach(duplicates::add);
 
         return duplicates;
     }
