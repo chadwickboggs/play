@@ -16,6 +16,10 @@ public final class GraphUtil {
         }
     };
 
+    /**
+     * The current implementation of this method requires no joining paths.
+     * All paths through the graph must diverge from each other and never join.
+     */
     @Nonnull
     public static <Q, R, S> List<Node<R, S>> findDuplicates(
             @Nonnull final Graph<Q, R, S> graph
