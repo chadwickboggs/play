@@ -1,6 +1,5 @@
 package com.tiffanytimbric.play.interview.cfs;
 
-import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -69,6 +68,39 @@ public final class ListUtil {
         }
 
         return listWithoutDuplicates;
+    }
+
+
+    @Nullable
+    public static <T> boolean containsCycles(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        if (
+                MyLinkedList.isEmpty(inputList)
+                        || inputList.headNode == null
+                        || inputList.headNode.next == null
+        ) {
+            return false;
+        }
+
+        MyLinkedListNode<T> currentNode = inputList.headNode;
+        while (currentNode != null) {
+            if (inputList.nodeMap.containsKey(currentNode.value)) {
+                final List<MyLinkedListNode<T>> nodes = inputList.nodeMap.get(currentNode.value);
+
+                final int currentNodeHashCode = currentNode.hashCode();
+
+                return nodes.stream()
+                        .map(MyLinkedListNode::hashCode)
+                        .anyMatch(nodeHashCode ->
+                                nodeHashCode.equals(currentNodeHashCode)
+                        );
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        return false;
     }
 
     static class MyLinkedList<T> {
