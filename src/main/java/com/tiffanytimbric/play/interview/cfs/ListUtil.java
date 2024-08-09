@@ -1,93 +1,188 @@
 package com.tiffanytimbric.play.interview.cfs;
 
+import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public final class ListUtil {
 
     public static void main(String[] args) {
         final List<Integer> listClean = Arrays.asList(
-                1, 2, 3, 4, 5, 6
+                1, 2, 3
         );
-        final List linkedListClean = new LinkedList(listClean);
+        final List<Integer> linkedListClean = new LinkedList<>(listClean);
 
         System.out.println("Size of Linked List Clean: " + linkedListClean.size());
 
-        final List linkedListWithDuplicates = new LinkedList();
-        linkedListWithDuplicates.addAll(listClean);
+        final MyLinkedList<Integer> linkedListWithDuplicates = new MyLinkedList<>(listClean)
+                .addAll(listClean);
 
         System.out.println("Size of Linked List With Duplicates: " + linkedListWithDuplicates.size());
 
-        final List linkedListWithDuplicatesRemoved = removeDuplicates(linkedListWithDuplicates);
+        final MyLinkedList<Integer> linkedListWithDuplicatesRemoved = removeDuplicates(linkedListWithDuplicates);
 
         System.out.println("Size of Linked List With Duplicates Removed: " + linkedListWithDuplicatesRemoved.size());
 
-        final MyLinkedList linkedListWithCycles = new MyLinkedList(
-                new MyLinkedListNode(
-                        1,
-                        new MyLinkedListNode<>(
-                                2,
-                                new MyLinkedListNode<>(
-                                        3,
-                                        null
-                                )
-                        )
-                )
-        );
+        // TODO: Implement.
+/*
+        final MyLinkedList<Integer> linkedListWithCycles = new MyLinkedList<>();
 
         System.out.println("Size of Linked List With Cycles: " + linkedListWithCycles.size());
+*/
     }
 
-    @Nonnull
-    public static List removeDuplicates(@Nullable final List inputList) {
-        if (CollectionUtils.isEmpty(inputList)) {
-            return new ArrayList();
+    @Nullable
+    public static <T> MyLinkedList<T> removeDuplicates(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        if (MyLinkedList.isEmpty(inputList)) {
+            return inputList;
+        }
+        if (!inputList.containsDuplicates) {
+            return inputList;
         }
 
-        final List listWithoutDuplicates = new ArrayList();
-        MyLinkedListNode firstNode = (MyLinkedListNode) inputList.get(0);
-        listWithoutDuplicates.add(firstNode);
+        final MyLinkedList<T> listWithoutDuplicates = new MyLinkedList<>();
+        MyLinkedListNode<T> firstNode = inputList.headNode;
+        listWithoutDuplicates.add(firstNode.value);
+        if (firstNode.next == null) {
+            return listWithoutDuplicates;
+        }
 
-        final HashSet<MyLinkedListNode> seenNodes = new HashSet<>();
-        MyLinkedListNode currentNode = firstNode;
-        while (currentNode.next != null) {
+        MyLinkedListNode<T> currentNode = firstNode.next;
+        while (currentNode != null) {
+            if (listWithoutDuplicates.contains(currentNode.value)) {
+                currentNode = currentNode.next;
+
+                continue;
+            }
+
+            listWithoutDuplicates.add(currentNode.value);
+
             currentNode = currentNode.next;
         }
-
-        // TODO: Implement.
 
         return listWithoutDuplicates;
     }
 
     static class MyLinkedList<T> {
 
-        public MyLinkedListNode<T> head;
+        public MyLinkedListNode<T> headNode;
+        public MyLinkedListNode<T> tailNode;
+        public HashMap<T, List<MyLinkedListNode<T>>> nodeMap = new HashMap<>();
+        public boolean containsDuplicates;
 
         public MyLinkedList() {
-            this(null);
         }
 
-        public MyLinkedList(@Nullable final MyLinkedListNode<T> head) {
-            this.head = head;
+        public MyLinkedList(
+                @Nonnull final MyLinkedListNode<T> headNode
+        ) {
+            if (headNode == null) {
+                throw new IllegalArgumentException("Parameter `headNode` must be non-null.");
+            }
+
+            this.headNode = headNode;
+            this.tailNode = headNode;
+
+            nodeMap.put(headNode.value, List.of(headNode));
+        }
+
+        public MyLinkedList(
+                @Nullable final List<T> list
+        ) {
+            if (CollectionUtils.isEmpty(list)) {
+                return;
+            }
+
+            addAll(list);
+        }
+
+        public static boolean isEmpty(
+                @Nullable final MyLinkedList<?> list
+        ) {
+            return list == null || list.isEmpty();
+        }
+
+        public boolean isEmpty() {
+            return headNode == null;
+        }
+
+        public boolean contains(@Nullable final T value) {
+            if (value == null) {
+                return false;
+            }
+
+            return nodeMap.containsKey(value);
         }
 
         public long size() {
-            if (head == null) {
+            if (!containsDuplicates) {
+                return nodeMap.size();
+            }
+
+            if (headNode == null) {
                 return 0;
             }
 
-            MyLinkedListNode<T> currentNode = head;
-            long size = 1;
-            while (currentNode.next != null) {
-                size++;
+            final AtomicLong size = new AtomicLong(1);
+            MyLinkedListNode<?> curentNode = headNode;
+            while (curentNode.next != null) {
+                size.getAndIncrement();
 
-                currentNode = currentNode.next;
+                curentNode = curentNode.next;
             }
 
-            return size;
+            return size.get();
+        }
+
+        @Nonnull
+        public MyLinkedList<T> add(
+                @Nonnull final T value
+        ) {
+            if (value == null) {
+                throw new IllegalArgumentException("Parameter `value` must be non-null.");
+            }
+
+            if (this.headNode == null) {
+                this.headNode = new MyLinkedListNode<>(value);
+                this.tailNode = this.headNode;
+
+                return this;
+            }
+
+            tailNode.next = new MyLinkedListNode<>(value);
+            tailNode = tailNode.next;
+
+            if (nodeMap.containsKey(value)) {
+                containsDuplicates = true;
+                final List<MyLinkedListNode<T>> currentNodes = nodeMap.get(value);
+                currentNodes.add(tailNode);
+            }
+            else {
+                final ArrayList<MyLinkedListNode<T>> currentNodes = new ArrayList<>();
+                currentNodes.add(tailNode);
+                nodeMap.put(value, currentNodes);
+            }
+
+            return this;
+        }
+
+        @Nonnull
+        public MyLinkedList<T> addAll(@Nullable final List<T> list) {
+            if (CollectionUtils.isEmpty(list)) {
+                return this;
+            }
+
+            list.forEach(this::add);
+
+            return this;
         }
     }
 
@@ -97,6 +192,12 @@ public final class ListUtil {
         public MyLinkedListNode<T> next;
 
         public MyLinkedListNode(
+                @Nonnull final T value
+        ) {
+            this.value = value;
+        }
+
+        public MyLinkedListNode(
                 @Nonnull final T value,
                 @Nullable final MyLinkedListNode<T> next
         ) {
@@ -104,6 +205,30 @@ public final class ListUtil {
             this.next = next;
         }
 
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (obj == this) {
+                return true;
+            }
+            if (obj.getClass() != getClass()) {
+                return false;
+            }
+            MyLinkedListNode rhs = (MyLinkedListNode) obj;
+            return new EqualsBuilder()
+                    .append(this.value, rhs.value)
+                    .append(this.next, rhs.next)
+                    .isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder()
+                    .append(value)
+                    .toHashCode();
+        }
     }
 
 }
