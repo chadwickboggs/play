@@ -1,0 +1,7 @@
+Company
+ * Creative Financial Solutions
+
+Problem Statement
+ * Given a Linked List.
+ * Remove duplicates.
+ * Remove cycles.
