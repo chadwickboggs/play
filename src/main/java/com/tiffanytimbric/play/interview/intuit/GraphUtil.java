@@ -36,7 +36,7 @@ public final class GraphUtil {
             return duplicates;
         }
 
-        boolean isDuplicate = seenNodes.get().add(currentNode.getId());
+        boolean isDuplicate = !seenNodes.get().add(currentNode.getId());
         if (isDuplicate) {
             duplicates.add(currentNode);
         }
