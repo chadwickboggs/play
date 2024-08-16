@@ -133,7 +133,7 @@ public final class ListUtil {
             return false;
         }
 
-        Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
+        final Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
         MyLinkedListNode<T> currentNode = inputList.headNode;
         while (currentNode != null) {
             if (seenNodes.contains(currentNode)) {
@@ -152,9 +152,30 @@ public final class ListUtil {
     public static <T> MyLinkedList<T> findCycles(
             @Nullable final MyLinkedList<T> inputList
     ) {
-        // TODO: Implement.
+        if (
+                MyLinkedList.isEmpty(inputList)
+                        || inputList.headNode == null
+                        || inputList.headNode.next == null
+        ) {
+            return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+        }
 
-        return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+        final MyLinkedList<T> cycles = new MyLinkedList<>();
+        final Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
+        MyLinkedListNode<T> currentNode = inputList.headNode;
+        while (currentNode != null) {
+            if (seenNodes.contains(currentNode)) {
+                cycles.add(currentNode);
+
+                return cycles;
+            }
+
+            seenNodes.add(currentNode);
+
+            currentNode = currentNode.next;
+        }
+
+        return cycles;
     }
 
 
@@ -162,7 +183,29 @@ public final class ListUtil {
     public static <T> MyLinkedList<T> removeCycles(
             @Nullable final MyLinkedList<T> inputList
     ) {
-        // TODO: Implement.
+        if (
+                MyLinkedList.isEmpty(inputList)
+                        || inputList.headNode == null
+                        || inputList.headNode.next == null
+        ) {
+            return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+        }
+
+        final Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
+        MyLinkedListNode<T> priorNode = null;
+        MyLinkedListNode<T> currentNode = inputList.headNode;
+        while (currentNode != null) {
+            if (seenNodes.contains(currentNode)) {
+                priorNode.next = null;
+
+                return inputList;
+            }
+
+            seenNodes.add(currentNode);
+
+            priorNode = currentNode;
+            currentNode = currentNode.next;
+        }
 
         return inputList;
     }

@@ -29,23 +29,25 @@ public class MyLinkedList<T> {
 
         this.headNode = headNode;
         this.tailNode = headNode;
-
         nodeMap.put(headNode.value, new ArrayList<>(List.of(headNode)));
 
-        if (headNode.next != null) {
-            MyLinkedListNode<T> currentNode = headNode.next;
-            while (currentNode != null) {
-                if (
-                        nodeMap.containsKey(currentNode.value)
-                                && nodeMap.get(currentNode.value).contains(currentNode)
-                ) {
-                    break;
-                }
+        if (headNode.next == null) {
+            return;
+        }
 
-                add(currentNode);
-
-                currentNode = currentNode.next;
+        MyLinkedListNode<T> currentNode = headNode.next;
+        while (currentNode != null) {
+            if (
+                    nodeMap.containsKey(currentNode.value)
+                            && nodeMap.get(currentNode.value).contains(currentNode)
+            ) {
+                break;
             }
+
+            add(currentNode);
+
+            tailNode = currentNode;
+            currentNode = currentNode.next;
         }
     }
 
@@ -130,6 +132,10 @@ public class MyLinkedList<T> {
             tailNode = headNode;
             nodeMap.put(node.value, new ArrayList<>(List.of(node)));
 
+            return this;
+        }
+
+        if (headNode.next == null) {
             return this;
         }
 
