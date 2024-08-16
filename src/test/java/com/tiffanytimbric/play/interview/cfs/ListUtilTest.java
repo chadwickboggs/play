@@ -29,6 +29,24 @@ public class ListUtilTest {
                     )
             )
     );
+    private final static MyLinkedList<String> LIST_WITH_CYCLE;
+
+    static {
+        final MyLinkedListNode<String> nodeTwo = new MyLinkedListNode<>(
+                "Value_Two"
+        );
+        final MyLinkedListNode<String> nodeThree = new MyLinkedListNode<>(
+                "Value_Three"
+        );
+        nodeTwo.next = nodeThree;
+        nodeThree.next = nodeTwo;
+
+        LIST_WITH_CYCLE = new MyLinkedList<>(
+                new MyLinkedListNode<>(
+                        "Value_One", nodeTwo
+                )
+        );
+    }
 
     @Test
     public void testContainsDuplicates_Empty() {
@@ -89,8 +107,6 @@ public class ListUtilTest {
 
         assertNotNull(duplicatesRemoved);
         assertFalse(duplicatesRemoved.isEmpty());
-
-        // TODO: Assert that the output list equals the input list.
     }
 
     @Test
@@ -99,7 +115,27 @@ public class ListUtilTest {
 
         assertNotNull(duplicatesRemoved);
         assertFalse(duplicatesRemoved.isEmpty());
-
-        // TODO: Assert that the output list equals the input list with its duplicates nodes removed.
     }
+
+    @Test
+    public void testContainsCycles_Empty() {
+        boolean containsCycles = ListUtil.containsCycles(LIST_EMPTY);
+
+        assertFalse(containsCycles);
+    }
+
+    @Test
+    public void testContainsCycles_Plain() {
+        boolean containsCycles = ListUtil.containsCycles(LIST_PLAIN);
+
+        assertFalse(containsCycles);
+    }
+
+    @Test
+    public void testContainsCycles_With_Cycles() {
+        boolean containsCycles = ListUtil.containsCycles(LIST_WITH_CYCLE);
+
+        assertTrue(containsCycles);
+    }
+
 }

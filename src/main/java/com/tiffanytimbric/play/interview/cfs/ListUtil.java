@@ -1,5 +1,7 @@
 package com.tiffanytimbric.play.interview.cfs;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
@@ -34,7 +36,7 @@ public final class ListUtil {
     public static <T> boolean containsDuplicates(
             @Nullable final MyLinkedList<T> inputList
     ) {
-        return !findDuplicates(inputList).isEmpty();
+        return inputList.containsDuplicates;
     }
 
     @Nonnull
@@ -48,6 +50,24 @@ public final class ListUtil {
             return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
         }
 
+        final List<MyLinkedListNode<T>> duplicates = inputList.nodeMap.values().stream()
+                .filter(nodes -> CollectionUtils.isNotEmpty(nodes))
+                .filter(nodes -> nodes.size() > 1)
+                .flatMap(nodes -> nodes.stream())
+                .toList();
+
+        if (CollectionUtils.isEmpty(duplicates)) {
+            return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+        }
+
+        final MyLinkedList<T> myLinkedList = new MyLinkedList<>();
+        duplicates.forEach(node ->
+                myLinkedList.add(node)
+        );
+
+        return myLinkedList;
+
+/*
         final MyLinkedList<T> seenValues = new MyLinkedList<>();
         final MyLinkedList<T> duplicates = new MyLinkedList<>();
         MyLinkedListNode<T> firstNode = inputList.headNode;
@@ -69,6 +89,7 @@ public final class ListUtil {
         }
 
         return duplicates;
+*/
     }
 
     @Nonnull
@@ -112,19 +133,14 @@ public final class ListUtil {
             return false;
         }
 
+        Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
         MyLinkedListNode<T> currentNode = inputList.headNode;
         while (currentNode != null) {
-            if (inputList.nodeMap.containsKey(currentNode.value)) {
-                final List<MyLinkedListNode<T>> nodes = inputList.nodeMap.get(currentNode.value);
-
-                final int currentNodeHashCode = currentNode.hashCode();
-
-                return nodes.stream()
-                        .map(MyLinkedListNode::hashCode)
-                        .anyMatch(nodeHashCode ->
-                                nodeHashCode.equals(currentNodeHashCode)
-                        );
+            if (seenNodes.contains(currentNode)) {
+                return true;
             }
+
+            seenNodes.add(currentNode);
 
             currentNode = currentNode.next;
         }
@@ -132,4 +148,22 @@ public final class ListUtil {
         return false;
     }
 
+    @Nonnull
+    public static <T> MyLinkedList<T> findCycles(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        // TODO: Implement.
+
+        return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+    }
+
+
+    @Nonnull
+    public static <T> MyLinkedList<T> removeCycles(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        // TODO: Implement.
+
+        return inputList;
+    }
 }

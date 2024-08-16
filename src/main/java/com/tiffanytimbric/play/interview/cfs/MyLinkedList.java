@@ -5,9 +5,7 @@ import org.apache.commons.collections4.MapUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class MyLinkedList<T> {
@@ -32,12 +30,19 @@ public class MyLinkedList<T> {
         this.headNode = headNode;
         this.tailNode = headNode;
 
-        nodeMap.put(headNode.value, List.of(headNode));
+        nodeMap.put(headNode.value, new ArrayList<>(List.of(headNode)));
 
         if (headNode.next != null) {
             MyLinkedListNode<T> currentNode = headNode.next;
             while (currentNode != null) {
-                add(currentNode.value);
+                if (
+                        nodeMap.containsKey(currentNode.value)
+                                && nodeMap.get(currentNode.value).contains(currentNode)
+                ) {
+                    break;
+                }
+
+                add(currentNode);
 
                 currentNode = currentNode.next;
             }
@@ -64,9 +69,29 @@ public class MyLinkedList<T> {
         return headNode == null;
     }
 
+    public boolean contains(@Nullable final MyLinkedListNode<T> node) {
+        if (headNode == null) {
+            return node == null;
+        }
+
+        final Set<MyLinkedListNode<T>> seenNodes = new HashSet<>();
+        MyLinkedListNode<T> currentNode = headNode;
+        while (currentNode != null && !seenNodes.contains(currentNode)) {
+            if (currentNode.equals(node)) {
+                return true;
+            }
+
+            seenNodes.add(currentNode);
+
+            currentNode = currentNode.next;
+        }
+
+        return false;
+    }
+
     public boolean contains(@Nullable final T value) {
-        if (value == null) {
-            return false;
+        if (headNode == null) {
+            return value == null;
         }
 
         return nodeMap.containsKey(value);
@@ -90,6 +115,37 @@ public class MyLinkedList<T> {
         }
 
         return size.get();
+    }
+
+    @Nonnull
+    public MyLinkedList<T> add(
+            @Nullable final MyLinkedListNode<T> node
+    ) {
+        if (node == null) {
+            return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
+        }
+
+        if (headNode == null) {
+            headNode = node;
+            tailNode = headNode;
+            nodeMap.put(node.value, new ArrayList<>(List.of(node)));
+
+            return this;
+        }
+
+        tailNode.next = node;
+
+        if (MapUtils.isEmpty(nodeMap) || !nodeMap.containsKey(node.value)) {
+            final ArrayList<MyLinkedListNode<T>> seenMyLinkedListNodes = new ArrayList<>();
+            seenMyLinkedListNodes.add(node);
+            nodeMap.put(node.value, seenMyLinkedListNodes);
+        }
+        else {
+            containsDuplicates = true;
+            nodeMap.get(node.value).add(node);
+        }
+
+        return this;
     }
 
     @Nonnull
@@ -119,7 +175,9 @@ public class MyLinkedList<T> {
         }
 
         List<MyLinkedListNode<T>> currentNodes;
-        if (MapUtils.isEmpty(nodeMap) || !nodeMap.containsKey(value)) {
+        if (
+                MapUtils.isEmpty(nodeMap) || !nodeMap.containsKey(value)
+        ) {
             currentNodes = new ArrayList<>();
         }
         else {
