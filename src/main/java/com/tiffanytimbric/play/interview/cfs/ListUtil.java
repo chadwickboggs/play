@@ -36,6 +36,46 @@ public final class ListUtil {
 */
     }
 
+    public static <T> boolean containsDuplicates(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        return !findDuplicates(inputList).isEmpty();
+    }
+
+    @Nullable
+    public static <T> MyLinkedList<T> findDuplicates(
+            @Nullable final MyLinkedList<T> inputList
+    ) {
+        if (MyLinkedList.isEmpty(inputList)) {
+            return inputList;
+        }
+        if (!inputList.containsDuplicates) {
+            return inputList;
+        }
+
+        final MyLinkedList<T> seenValues = new MyLinkedList<>();
+        final MyLinkedList<T> duplicates = new MyLinkedList<>();
+        MyLinkedListNode<T> firstNode = inputList.headNode;
+        seenValues.add(firstNode.value);
+        if (firstNode.next == null) {
+            return seenValues;
+        }
+
+        MyLinkedListNode<T> currentNode = firstNode.next;
+        while (currentNode != null) {
+            if (!seenValues.contains(currentNode.value)) {
+                seenValues.add(currentNode.value);
+            }
+            else {
+                duplicates.add(currentNode.value);
+            }
+
+            currentNode = currentNode.next;
+        }
+
+        return duplicates;
+    }
+
     @Nullable
     public static <T> MyLinkedList<T> removeDuplicates(
             @Nullable final MyLinkedList<T> inputList
@@ -47,29 +87,24 @@ public final class ListUtil {
             return inputList;
         }
 
-        final MyLinkedList<T> listWithoutDuplicates = new MyLinkedList<>();
+        final MyLinkedList<T> seenValues = new MyLinkedList<>();
         MyLinkedListNode<T> firstNode = inputList.headNode;
-        listWithoutDuplicates.add(firstNode.value);
+        seenValues.add(firstNode.value);
         if (firstNode.next == null) {
-            return listWithoutDuplicates;
+            return seenValues;
         }
 
         MyLinkedListNode<T> currentNode = firstNode.next;
         while (currentNode != null) {
-            if (listWithoutDuplicates.contains(currentNode.value)) {
-                currentNode = currentNode.next;
-
-                continue;
+            if (!seenValues.contains(currentNode.value)) {
+                seenValues.add(currentNode.value);
             }
-
-            listWithoutDuplicates.add(currentNode.value);
 
             currentNode = currentNode.next;
         }
 
-        return listWithoutDuplicates;
+        return seenValues;
     }
-
 
     @Nullable
     public static <T> boolean containsCycles(
