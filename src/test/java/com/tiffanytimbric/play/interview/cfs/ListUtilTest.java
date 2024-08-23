@@ -111,7 +111,7 @@ public class ListUtilTest {
 
     @Test
     public void testRemoveDuplicates_With_Duplicates() {
-        final MyLinkedList<String> duplicatesRemoved = ListUtil.removeDuplicates(LIST_PLAIN);
+        final MyLinkedList<String> duplicatesRemoved = ListUtil.removeDuplicates(LIST_WITH_DUPLICATE);
 
         assertNotNull(duplicatesRemoved);
         assertFalse(duplicatesRemoved.isEmpty());
@@ -155,27 +155,12 @@ public class ListUtilTest {
     }
 
     @Test
-    public void testFindCycles_With_Empty() {
-        final MyLinkedList<String> cycles = ListUtil.findCycles(LIST_EMPTY);
-
-        assertNotNull(cycles);
-        assertTrue(cycles.isEmpty());
-    }
-
-    @Test
-    public void testFindCycles_With_Plain() {
-        final MyLinkedList<String> cycles = ListUtil.findCycles(LIST_PLAIN);
-
-        assertNotNull(cycles);
-        assertTrue(cycles.isEmpty());
-    }
-
-    @Test
     public void testFindCycles_With_Cycles() {
         final MyLinkedList<String> cycles = ListUtil.findCycles(LIST_WITH_CYCLE);
 
         assertNotNull(cycles);
         assertFalse(cycles.isEmpty());
+        assertEquals(1, cycles.size());
     }
 
     @Test
@@ -191,7 +176,16 @@ public class ListUtilTest {
         final MyLinkedList<String> cyclesRemoved = ListUtil.removeCycles(LIST_PLAIN);
 
         assertNotNull(cyclesRemoved);
+        assertTrue(cyclesRemoved.isEmpty());
+    }
+
+    @Test
+    public void testRemoveCycles_With_Cycles() {
+        final MyLinkedList<String> cyclesRemoved = ListUtil.removeCycles(LIST_WITH_CYCLE);
+
+        assertNotNull(cyclesRemoved);
         assertFalse(cyclesRemoved.isEmpty());
+        assertEquals(1, cyclesRemoved.size());
     }
 
 }

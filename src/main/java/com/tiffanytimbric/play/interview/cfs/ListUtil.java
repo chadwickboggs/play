@@ -9,28 +9,47 @@ import java.util.*;
 public final class ListUtil {
 
     public static void main(String[] args) {
-        final List<Integer> listClean = Arrays.asList(
+        //
+        // Build a MyLinkedList which contains no duplicates and no cycles.
+        //
+        final List<Integer> jdkListClean = Arrays.asList(
                 1, 2, 3
         );
-        final List<Integer> linkedListClean = new LinkedList<>(listClean);
+        final List<Integer> jdkLinkedListClean = new LinkedList<>(jdkListClean);
 
-        System.out.println("Size of Linked List Clean: " + linkedListClean.size());
+        System.out.println("Size of Linked List Clean: " + jdkLinkedListClean.size());
 
-        final MyLinkedList<Integer> linkedListWithDuplicates = new MyLinkedList<>(listClean)
-                .addAll(listClean);
+        //
+        // Build a MyLinkedList which contains one duplicate and zero cycles.
+        //
+        final MyLinkedList<Integer> myLinkedListWithDuplicates = new MyLinkedList<>(jdkListClean)
+                .addAll(jdkListClean);
 
-        System.out.println("Size of Linked List With Duplicates: " + linkedListWithDuplicates.size());
+        System.out.println("Size of Linked List With Duplicates: " + myLinkedListWithDuplicates.size());
 
-        final MyLinkedList<Integer> linkedListWithDuplicatesRemoved = removeDuplicates(linkedListWithDuplicates);
+        // Remove duplicates.
+        final MyLinkedList<Integer> myLinkedListWithDuplicatesRemoved = removeDuplicates(myLinkedListWithDuplicates);
 
-        System.out.println("Size of Linked List With Duplicates Removed: " + linkedListWithDuplicatesRemoved.size());
+        System.out.println("Size of Linked List With Duplicates Removed: " + myLinkedListWithDuplicatesRemoved.size());
 
-        // TODO: Implement.
-/*
-        final MyLinkedList<Integer> linkedListWithCycles = new MyLinkedList<>();
+        //
+        // Build a MyLinkedList which contains no duplicates and one cycle.
+        //
+        final MyLinkedListNode<Integer> nodeTwo = new MyLinkedListNode<>(2);
+        final MyLinkedListNode<Integer> nodeThree = new MyLinkedListNode<>(3);
+        nodeTwo.next = nodeThree;
+        nodeThree.next = nodeTwo;
 
-        System.out.println("Size of Linked List With Cycles: " + linkedListWithCycles.size());
-*/
+        final MyLinkedList<Integer> myLinkedListWithCycles = new MyLinkedList<>(
+                new MyLinkedListNode<>(1, nodeTwo)
+        );
+
+        System.out.println("Size of Linked List With Cycles: " + myLinkedListWithCycles.size());
+
+        // Remove cycles.
+        final MyLinkedList<Integer> myLinkedListWithCyclesRemoved = removeCycles(myLinkedListWithCycles);
+
+        System.out.println("Size of Linked List With Cycles Removed: " + myLinkedListWithCyclesRemoved.size());
     }
 
     public static <T> boolean containsDuplicates(
@@ -103,23 +122,27 @@ public final class ListUtil {
             return inputList;
         }
 
-        final MyLinkedList<T> seenValues = new MyLinkedList<>();
+        final Set<T> seenValues = new HashSet<>();
         MyLinkedListNode<T> firstNode = inputList.headNode;
         seenValues.add(firstNode.value);
         if (firstNode.next == null) {
-            return seenValues;
+            return new MyLinkedList<>(seenValues);
         }
 
+        final MyLinkedList<T> duplicates = new MyLinkedList<>();
         MyLinkedListNode<T> currentNode = firstNode.next;
         while (currentNode != null) {
-            if (!seenValues.contains(currentNode.value)) {
+            if (seenValues.contains(currentNode.value)) {
+                duplicates.add(currentNode);
+            }
+            else {
                 seenValues.add(currentNode.value);
             }
 
             currentNode = currentNode.next;
         }
 
-        return seenValues;
+        return duplicates;
     }
 
     public static <T> boolean containsCycles(
@@ -198,7 +221,9 @@ public final class ListUtil {
             if (seenNodes.contains(currentNode)) {
                 priorNode.next = null;
 
-                return inputList;
+                return new MyLinkedList<>(
+                        new MyLinkedListNode<>(currentNode.value)
+                );
             }
 
             seenNodes.add(currentNode);
@@ -207,6 +232,6 @@ public final class ListUtil {
             currentNode = currentNode.next;
         }
 
-        return inputList;
+        return (MyLinkedList<T>) MyLinkedList.EMPTY_LIST;
     }
 }

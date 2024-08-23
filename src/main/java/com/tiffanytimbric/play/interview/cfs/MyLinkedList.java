@@ -52,13 +52,13 @@ public class MyLinkedList<T> {
     }
 
     public MyLinkedList(
-            @Nullable final List<T> list
+            @Nullable final Collection<T> values
     ) {
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtils.isEmpty(values)) {
             return;
         }
 
-        addAll(list);
+        addAll(values);
     }
 
     public static boolean isEmpty(
@@ -198,12 +198,14 @@ public class MyLinkedList<T> {
     }
 
     @Nonnull
-    public MyLinkedList<T> addAll(@Nullable final List<T> list) {
-        if (CollectionUtils.isEmpty(list)) {
+    public MyLinkedList<T> addAll(
+            @Nullable final Collection<T> values
+    ) {
+        if (CollectionUtils.isEmpty(values)) {
             return this;
         }
 
-        list.forEach(this::add);
+        values.forEach(this::add);
 
         return this;
     }
