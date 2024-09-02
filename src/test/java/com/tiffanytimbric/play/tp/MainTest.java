@@ -4,14 +4,14 @@ import junit.framework.TestCase;
 
 public class MainTest extends TestCase {
 
-    public void testHasBalancedParens_Frown() {
-        boolean hasBalancedParens = Main.hasBalancedParens("(:()");
+    public void testHasBalancedParens_False() {
+        boolean hasBalancedParens = Main.hasBalancedParens("(()");
 
-        assertTrue(hasBalancedParens);
+        assertFalse(hasBalancedParens);
     }
 
-    public void testHasBalancedParens_Coin() {
-        boolean hasBalancedParens = Main.hasBalancedParens("(:)");
+    public void testHasBalancedParens_True() {
+        boolean hasBalancedParens = Main.hasBalancedParens("()");
 
         assertTrue(hasBalancedParens);
     }
