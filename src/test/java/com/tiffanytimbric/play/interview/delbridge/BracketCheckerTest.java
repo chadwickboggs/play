@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class BracketUtilTest {
+public class BracketCheckerTest {
 
     public static final String MATCHED_SIMPLE = "()";
     public static final String NOT_MATCHED_SIMPLE = ")(";
@@ -19,70 +19,70 @@ public class BracketUtilTest {
 
     @Test
     public void testPass_Null() {
-        boolean result = new BracketUtil().areBracketsMatched(null);
+        boolean result = new BracketChecker().areBracketsMatched(null);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testPass_Empty() {
-        boolean result = new BracketUtil().areBracketsMatched(StringUtils.EMPTY);
+        boolean result = new BracketChecker().areBracketsMatched(StringUtils.EMPTY);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testPass_Matched_Simple() {
-        boolean result = new BracketUtil().areBracketsMatched(MATCHED_SIMPLE);
+        boolean result = new BracketChecker().areBracketsMatched(MATCHED_SIMPLE);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testFail_NotMatched_Simple() {
-        boolean result = new BracketUtil().areBracketsMatched(NOT_MATCHED_SIMPLE);
+        boolean result = new BracketChecker().areBracketsMatched(NOT_MATCHED_SIMPLE);
 
         assertFalse(result);
     }
 
     @Test
     public void testPass_Matched_Medium_Nested() {
-        boolean result = new BracketUtil().areBracketsMatched(MATCHED_MEDIUM_NESTED);
+        boolean result = new BracketChecker().areBracketsMatched(MATCHED_MEDIUM_NESTED);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testPass_Matched_Medium_NotNested() {
-        boolean result = new BracketUtil().areBracketsMatched(MATCHED_MEDIUM_NOT_NESTED);
+        boolean result = new BracketChecker().areBracketsMatched(MATCHED_MEDIUM_NOT_NESTED);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testFail_NotMatched_Medium_One() {
-        boolean result = new BracketUtil().areBracketsMatched(NOT_MATCHED_MEDIUM_ONE);
+        boolean result = new BracketChecker().areBracketsMatched(NOT_MATCHED_MEDIUM_ONE);
 
         assertFalse(result);
     }
 
     @Test
     public void testFail_NotMatched_Medium_Two() {
-        boolean result = new BracketUtil().areBracketsMatched(NOT_MATCHED_MEDIUM_TWO);
+        boolean result = new BracketChecker().areBracketsMatched(NOT_MATCHED_MEDIUM_TWO);
 
         assertFalse(result);
     }
 
     @Test
     public void testPass_Matched_Two_Types() {
-        boolean result = new BracketUtil().areBracketsMatched(MATCHED_TWO_TYPES);
+        boolean result = new BracketChecker().areBracketsMatched(MATCHED_TWO_TYPES);
 
-        assertEquals(BracketUtil.BLANK_MATCH_VALUE, result);
+        assertEquals(BracketChecker.BLANK_MATCH_VALUE, result);
     }
 
     @Test
     public void testFail_NotMatched_Two_Types() {
-        boolean result = new BracketUtil().areBracketsMatched(NOT_MATCHED_TWO_TYPES);
+        boolean result = new BracketChecker().areBracketsMatched(NOT_MATCHED_TWO_TYPES);
 
         assertFalse(result);
     }
