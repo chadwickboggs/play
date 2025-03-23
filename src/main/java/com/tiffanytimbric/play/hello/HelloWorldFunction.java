@@ -1,6 +1,6 @@
 package com.tiffanytimbric.play.hello;
 
-import com.tiffanytimbric.play.LangUtil;
+import com.tiffanytimbric.util.LangUtil;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.annotation.Nullable;
@@ -19,7 +19,7 @@ public class HelloWorldFunction implements Function<List<String>, ResultStatus> 
             return ResultStatus.Success;
         }
 
-        final Optional<String> firstCliArgOpt = LangUtil.getArgument(0, args);
+        final Optional<String> firstCliArgOpt = LangUtil.item(0, args);
         if (firstCliArgOpt.isEmpty()) {
 
             return ResultStatus.Failure
