@@ -4,6 +4,9 @@ import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This implementation uses functional techniques via the Java 8 stream API.
+ */
 public class FindRomeFunctional implements FindRome {
 
     public static final String NAME = "findRomeFunctional";

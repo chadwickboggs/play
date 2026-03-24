@@ -4,6 +4,9 @@ import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This implementation is imperative usiing no functional programming techniques.
+ */
 public class FindRomeImperative implements FindRome {
 
     public static final String NAME = "findRomeImperative";

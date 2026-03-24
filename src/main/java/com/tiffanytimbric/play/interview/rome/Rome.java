@@ -3,6 +3,10 @@ package com.tiffanytimbric.play.interview.rome;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * This class finds the city ID of the first city which contains no outbound roads
+ * in the data provided.
+ */
 public class Rome {
 
     public static final FindRomeImperative FIND_ROME_IMPERATIVE = new FindRomeImperative();

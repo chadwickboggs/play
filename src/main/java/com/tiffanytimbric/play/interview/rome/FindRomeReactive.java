@@ -6,6 +6,9 @@ import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * This implementation uses reactive programming techniques via the Reactor library.
+ */
 public class FindRomeReactive implements FindRome {
 
     public static final String NAME = "findRomeReactive";
