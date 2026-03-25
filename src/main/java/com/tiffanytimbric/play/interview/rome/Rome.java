@@ -17,18 +17,18 @@ public class Rome {
         /*
          * Cities: (null, null)
          */
-        System.out.println(String.format(
-                "Expected Value: %s", FindRome.CITY_ID_NOT_FOUND
-        ));
+        System.out.printf(
+                "Expected Value: %s%n", FindRome.CITY_ID_NOT_FOUND
+        );
         findRome(null, null);
 
         /*
          * Cities: (null, null)
          */
         System.out.println();
-        System.out.println(String.format(
-                "Expected Value: %s", FindRome.CITY_ID_NOT_FOUND
-        ));
+        System.out.printf(
+                "Expected Value: %s%n", FindRome.CITY_ID_NOT_FOUND
+        );
         findRome(
                 List.of(),
                 List.of()
@@ -81,23 +81,23 @@ public class Rome {
             @Nullable final List<Integer> fromCityIds,
             @Nullable final List<Integer> toCityIds
     ) {
-        System.out.println(String.format(
-                "%s\t--> %s(%s, %s)",
+        System.out.printf(
+                "%s\t--> %s(%s, %s)%n",
                 FIND_ROME_IMPERATIVE.findRome(fromCityIds, toCityIds),
                 FIND_ROME_IMPERATIVE.getName(), fromCityIds, toCityIds
-        ));
+        );
 
-        System.out.println(String.format(
-                "%s\t--> %s(%s, %s)",
+        System.out.printf(
+                "%s\t--> %s(%s, %s)%n",
                 FIND_ROME_FUNCTIONAL.findRome(fromCityIds, toCityIds),
                 FIND_ROME_FUNCTIONAL.getName(), fromCityIds, toCityIds
-        ));
+        );
 
-        System.out.println(String.format(
-                "%s\t--> %s(%s, %s)",
+        System.out.printf(
+                "%s\t--> %s(%s, %s)%n",
                 FIND_ROME_REACTIVE.findRome(fromCityIds, toCityIds),
                 FIND_ROME_REACTIVE.getName(), fromCityIds, toCityIds
-        ));
+        );
     }
 
 }
