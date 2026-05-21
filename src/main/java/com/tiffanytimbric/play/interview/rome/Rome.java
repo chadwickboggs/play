@@ -18,7 +18,7 @@ public class Rome {
          * Cities: (null, null)
          */
         System.out.printf(
-                "Expected Value: %s%n", FindRome.CITY_ID_NOT_FOUND
+                "Expected Value: %s%n", FindRomeConstants.CITY_ID_NOT_FOUND
         );
         findRome(null, null);
 
@@ -27,7 +27,7 @@ public class Rome {
          */
         System.out.println();
         System.out.printf(
-                "Expected Value: %s%n", FindRome.CITY_ID_NOT_FOUND
+                "Expected Value: %s%n", FindRomeConstants.CITY_ID_NOT_FOUND
         );
         findRome(
                 List.of(),

@@ -22,20 +22,20 @@ public class FindRomeFunctional implements FindRome {
             @Nullable final List<Integer> toCityIds
     ) {
         if (fromCityIds == null || toCityIds == null) {
-            return FindRome.CITY_ID_NOT_FOUND;
+            return FindRomeConstants.CITY_ID_NOT_FOUND;
         }
         if (fromCityIds.isEmpty() || toCityIds.isEmpty()) {
-            return FindRome.CITY_ID_NOT_FOUND;
+            return FindRomeConstants.CITY_ID_NOT_FOUND;
         }
 
-        final HashSet<Integer> originCityIds = new HashSet<>(fromCityIds);
+        final HashSet<Integer> fromCityIdsSet = new HashSet<>(fromCityIds);
 
         return toCityIds.stream()
                 .mapToInt(toCityId -> toCityId)
                 .filter(toCityId ->
-                        !originCityIds.contains(toCityId)
+                        !fromCityIdsSet.contains(toCityId)
                 )
                 .findFirst()
-                .orElse(FindRome.CITY_ID_NOT_FOUND);
+                .orElse(FindRomeConstants.CITY_ID_NOT_FOUND);
     }
 }
