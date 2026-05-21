@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+
 /**
  * This implementation uses functional techniques via the Java 8 stream API.
  */
@@ -21,10 +23,7 @@ public class FindRomeFunctional implements FindRome {
             @Nullable final List<Integer> fromCityIds,
             @Nullable final List<Integer> toCityIds
     ) {
-        if (fromCityIds == null || toCityIds == null) {
-            return FindRomeConstants.CITY_ID_NOT_FOUND;
-        }
-        if (fromCityIds.isEmpty() || toCityIds.isEmpty()) {
+        if (isEmpty(fromCityIds) || isEmpty(toCityIds)) {
             return FindRomeConstants.CITY_ID_NOT_FOUND;
         }
 
