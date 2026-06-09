@@ -24,7 +24,7 @@ public class FindRomeFunctional implements FindRome {
             @Nullable final List<Integer> toCityIds
     ) {
         if (isEmpty(fromCityIds) || isEmpty(toCityIds)) {
-            return FindRomeConstants.CITY_ID_NOT_FOUND;
+            return Constants.CITY_ID_NOT_FOUND;
         }
 
         final HashSet<Integer> fromCityIdsSet = new HashSet<>(fromCityIds);
@@ -35,6 +35,6 @@ public class FindRomeFunctional implements FindRome {
                         !fromCityIdsSet.contains(toCityId)
                 )
                 .findFirst()
-                .orElse(FindRomeConstants.CITY_ID_NOT_FOUND);
+                .orElse(Constants.CITY_ID_NOT_FOUND);
     }
 }

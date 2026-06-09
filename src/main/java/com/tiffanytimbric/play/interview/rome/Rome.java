@@ -3,7 +3,7 @@ package com.tiffanytimbric.play.interview.rome;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.tiffanytimbric.play.interview.rome.FindRomeConstants.CITY_ID_NOT_FOUND;
+import static com.tiffanytimbric.play.interview.rome.Constants.CITY_ID_NOT_FOUND;
 
 /**
  * This class finds the city ID of the first city which contains no outbound roads

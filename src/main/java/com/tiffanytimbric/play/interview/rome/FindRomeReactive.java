@@ -36,7 +36,7 @@ public class FindRomeReactive implements FindRome, FindRomeRx {
             @Nullable final List<Integer> toCityIds
     ) {
         if (isEmpty(fromCityIds) || isEmpty(toCityIds)) {
-            return Mono.just(FindRomeConstants.CITY_ID_NOT_FOUND);
+            return Mono.just(Constants.CITY_ID_NOT_FOUND);
         }
 
         final HashSet<Integer> fromCityIdsSet = new HashSet<>(fromCityIds);
@@ -45,7 +45,7 @@ public class FindRomeReactive implements FindRome, FindRomeRx {
                 .filter(toCityId ->
                         !fromCityIdsSet.contains(toCityId)
                 )
-                .defaultIfEmpty(FindRomeConstants.CITY_ID_NOT_FOUND)
+                .defaultIfEmpty(Constants.CITY_ID_NOT_FOUND)
                 .next();
     }
 

@@ -1,6 +1,6 @@
 package com.tiffanytimbric.play.interview.rome;
 
-public interface FindRomeConstants {
+public interface Constants {
 
     int CITY_ID_NOT_FOUND = -1;
 

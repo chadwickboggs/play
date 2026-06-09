@@ -24,7 +24,7 @@ public class FindRomeImperative implements FindRome {
             @Nullable final List<Integer> toCityIds
     ) {
         if (isEmpty(fromCityIds) || isEmpty(toCityIds)) {
-            return FindRomeConstants.CITY_ID_NOT_FOUND;
+            return Constants.CITY_ID_NOT_FOUND;
         }
 
         final HashSet<Integer> fromCityIdsSet = new HashSet<>(fromCityIds);
@@ -35,6 +35,6 @@ public class FindRomeImperative implements FindRome {
             }
         }
 
-        return FindRomeConstants.CITY_ID_NOT_FOUND;
+        return Constants.CITY_ID_NOT_FOUND;
     }
 }
