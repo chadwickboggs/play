@@ -1,9 +1,11 @@
 package com.tiffanytimbric.play;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +15,8 @@ public class PrimeChecker {
     public static final int EXIT_CODE_ERROR_BAD_INPUT = 1;
 
     public static final String USAGE = """
-        Usage:\n\t$ java com.tiffanytimbric.play.PrimeChecker <integers to check>
-        """;
+            Usage:\n\t$ java com.tiffanytimbric.play.PrimeChecker <integers to check>
+            """;
     public static final String ERROR_MSG = "Error:";
     public static final String ERROR_MSG_BAD_INPUT = "At least one input is required, an integer number.";
 
@@ -31,7 +33,8 @@ public class PrimeChecker {
         List<Integer> inputToCheck = List.of();
         try {
             inputToCheck = readInputToCheck(args);
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             System.err.println(ERROR_MSG);
             System.err.println("\t" + e.getMessage());
             System.err.println(USAGE);
@@ -39,12 +42,17 @@ public class PrimeChecker {
             System.exit(EXIT_CODE_ERROR_BAD_INPUT);
         }
 
-        inputToCheck.stream().forEach(valueToCheck ->
-            System.out.printf(
-                    "isPrime(%d) = %b%n",
-                    valueToCheck, isPrime(valueToCheck)
-            )
-        );
+        inputToCheck.stream().parallel()
+                .map(valueToCheck ->
+                        Pair.of(valueToCheck, isPrime(valueToCheck))
+                )
+                .sorted(Comparator.comparing(Pair::getLeft))
+                .forEachOrdered(resultPair ->
+                        System.out.printf(
+                                "isPrime(%d) = %b%n",
+                                resultPair.getLeft(), resultPair.getRight()
+                        )
+                );
 
         System.exit(EXIT_CODE_SUCCESS);
     }
