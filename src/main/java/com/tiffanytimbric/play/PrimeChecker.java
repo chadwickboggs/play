@@ -62,7 +62,7 @@ public class PrimeChecker {
             return false;
         }
 
-        if (num % 2 == 0) {
+        if ((num & 1) == 0) {
             return false;
         }
 
