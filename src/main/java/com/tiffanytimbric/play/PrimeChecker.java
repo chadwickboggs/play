@@ -83,6 +83,12 @@ public class PrimeChecker {
             return false;
         }
 
+        /*
+         * I read that after some value the iterating value may increase by 6 each
+         * time instead of by 2 to improve performance, but said algorithm is not
+         * implemented here.
+         */
+
         final double sqrtNum = Math.sqrt(num);
         for (int i = 3; i <= sqrtNum; i += 2) {
             if (num % i == 0) {
