@@ -70,7 +70,8 @@ public class PrimeChecker {
             return false;
         }
 
-        for (int i = 3; i < num / 2; i += 2) {
+        final double sqrtNum = Math.sqrt(num);
+        for (int i = 3; i < sqrtNum; i += 2) {
             if (num % i == 0) {
                 return false;
             }
