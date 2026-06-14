@@ -57,6 +57,19 @@ public class PrimeChecker {
         System.exit(EXIT_CODE_SUCCESS);
     }
 
+    /**
+     * Checks if a number is prime.  Its algorithm is based on the fact that a
+     * prime number is only divisible by 1 and itself.  It first checks if the
+     * number is 2, which is the only even prime number.  Then it checks if the
+     * number is less than or equal to 2, which are not prime numbers.  Next,
+     * it checks if the number is even, which are not prime numbers.  Finally,
+     * it checks (through single-threaded iteration) if the number is divisible
+     * by any odd even number from 3 up to the square root of the number, which
+     * are not prime numbers.
+     *
+     * @param num The number to check.
+     * @return True if the number is prime, false otherwise.
+     */
     public static boolean isPrime(int num) {
         if (num == 2) {
             return true;
