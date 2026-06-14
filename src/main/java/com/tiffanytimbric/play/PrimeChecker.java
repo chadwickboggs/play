@@ -71,7 +71,7 @@ public class PrimeChecker {
         }
 
         final double sqrtNum = Math.sqrt(num);
-        for (int i = 3; i < sqrtNum; i += 2) {
+        for (int i = 3; i <= sqrtNum; i += 2) {
             if (num % i == 0) {
                 return false;
             }
