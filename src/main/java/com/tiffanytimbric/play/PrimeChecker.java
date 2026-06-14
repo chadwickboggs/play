@@ -58,6 +58,10 @@ public class PrimeChecker {
     }
 
     public static boolean isPrime(int num) {
+        if (num == 2) {
+            return true;
+        }
+
         if (num <= 2) {
             return false;
         }
