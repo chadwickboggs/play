@@ -1,7 +1,5 @@
-package com.tiffanytimbric.play;
+package com.tiffanytimbric.play.hello;
 
-import com.tiffanytimbric.play.hello.HelloWorldFunction;
-import com.tiffanytimbric.play.hello.ResultStatus;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
